@@ -2569,12 +2569,8 @@ export default function Home() {
         </section>
 
         {/* Why Us Horizontal Scroll */}
-        <section ref={whyUsRef} id="process" className={`border-t border-border-custom bg-background/50 relative ${
-          isMobile ? "h-auto py-16" : "h-[300vh]"
-        }`}>
-          <div className={`${
-            isMobile ? "relative h-auto flex flex-col justify-center" : "sticky top-0 h-screen flex flex-col justify-center overflow-hidden"
-          }`}>
+        <section ref={whyUsRef} id="process" className="border-t border-border-custom bg-background/50 relative w-full overflow-hidden">
+          <div className="relative w-full h-auto py-16 md:py-0 md:h-screen flex flex-col justify-center overflow-hidden">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
               <div className="max-w-xl">
                 <span className="label">Why Choose Us</span>
