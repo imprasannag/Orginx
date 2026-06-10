@@ -379,16 +379,68 @@ const CategoryIcon = ({ name, className }: { name: string; className?: string })
 
 export default function Home() {
   const [stats, setStats] = useState({ clients: 0, completed: 0, rate: 0, years: 0 });
-  const [isMobile, setIsMobile] = useState(false);
 
+  // Refs for horizontal scrolling
+  const whyUsRef = useRef<HTMLDivElement | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const [scrollAmount, setScrollAmount] = useState(0);
+
+  // Measure dynamic horizontal scroll bounds
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    if (scrollContainerRef.current) {
+      const updateAmount = () => {
+        if (scrollContainerRef.current) {
+          const distance = scrollContainerRef.current.scrollWidth - window.innerWidth;
+          setScrollAmount(distance > 0 ? distance : 0);
+        }
+      };
+
+      updateAmount();
+
+      // Recalculate dimensions as layout settles (Tailwind dynamic styles, fonts, etc.)
+      const timers = [100, 500, 1000, 2000].map((delay) =>
+        setTimeout(updateAmount, delay)
+      );
+
+      window.addEventListener("resize", updateAmount);
+      return () => {
+        timers.forEach((timer) => clearTimeout(timer));
+        window.removeEventListener("resize", updateAmount);
+      };
+    }
   }, []);
+
+  // Dedicated GSAP Horizontal Scroll Pinning Effect
+  useEffect(() => {
+    if (typeof window !== "undefined" && scrollAmount > 0) {
+      gsap.registerPlugin(ScrollTrigger);
+
+      let pinTween: gsap.core.Tween | null = null;
+
+      if (scrollContainerRef.current) {
+        pinTween = gsap.to(scrollContainerRef.current, {
+          x: -scrollAmount,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#process",
+            pin: true,
+            scrub: 0.5,
+            start: "top top",
+            end: () => `+=${scrollAmount}`,
+            invalidateOnRefresh: true,
+          }
+        });
+      }
+
+      return () => {
+        if (pinTween) {
+          pinTween.scrollTrigger?.kill();
+          pinTween.kill();
+        }
+      };
+    }
+  }, [scrollAmount]);
+
 
   // Widget states for Capabilities Bento Grid
   const [sandboxState, setSandboxState] = useState<"idle" | "loading" | "success">("idle");
@@ -1049,21 +1101,7 @@ export default function Home() {
         }
       });
 
-      // Horizontal scroll animation for Why Choose Us
-      if (window.innerWidth >= 768 && scrollContainerRef.current) {
-        gsap.to(scrollContainerRef.current, {
-          x: () => -(scrollContainerRef.current!.scrollWidth - window.innerWidth + 64),
-          ease: "none",
-          scrollTrigger: {
-            trigger: "#process",
-            pin: true,
-            scrub: 0.5,
-            start: "top top",
-            end: () => `+=${scrollContainerRef.current!.scrollWidth - window.innerWidth}`,
-            invalidateOnRefresh: true,
-          }
-        });
-      }
+      // Horizontal scroll animation is now handled in a dedicated useEffect dependent on scrollAmount
 
       // Parallax scrolling for masterpieces images
       gsap.fromTo(
@@ -1140,9 +1178,7 @@ export default function Home() {
     }
   }, []);
 
-  // Horizontal Scroll for Why Us
-  const whyUsRef = useRef<HTMLDivElement | null>(null);
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -2570,7 +2606,7 @@ export default function Home() {
 
         {/* Why Us Horizontal Scroll */}
         <section ref={whyUsRef} id="process" className="border-t border-border-custom bg-background/50 relative w-full overflow-hidden">
-          <div className="relative w-full h-auto py-16 md:py-0 md:h-screen flex flex-col justify-center overflow-hidden">
+          <div className="relative w-full h-screen flex flex-col justify-center overflow-hidden">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
               <div className="max-w-xl">
                 <span className="label">Why Choose Us</span>
@@ -2578,17 +2614,17 @@ export default function Home() {
                   The OrginX Standard.
                 </h2>
                 <p className="mt-4 text-text-secondary text-sm">
-                  {isMobile ? "Explore our core engineering principles." : "Scroll down to navigate through our core engineering principles."}
+                  Scroll down to navigate through our core engineering principles.
                 </p>
               </div>
             </div>
 
-            <div className="mt-12 w-full">
-              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div 
-                  ref={scrollContainerRef} 
-                  className="flex overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none gap-6 w-full pb-6 scrollbar-none md:w-max"
-                >
+            <div className="mt-12 w-full overflow-hidden">
+              <div 
+                ref={scrollContainerRef} 
+                className="flex flex-row flex-nowrap gap-6 w-max pl-4 sm:pl-6 lg:pl-8 pr-12 pb-6"
+                style={{ width: "max-content" }}
+              >
                   {/* Card 1 */}
                   <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
                     <div className="text-3xl font-bold text-accent">01</div>
@@ -2687,8 +2723,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
         {/* Marquee Banner 2 */}
         <section className="bg-zinc-950 border-y border-border-custom py-8 overflow-hidden select-none">
