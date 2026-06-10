@@ -416,8 +416,10 @@ export default function Home() {
       gsap.registerPlugin(ScrollTrigger);
 
       let pinTween: gsap.core.Tween | null = null;
+      let entranceTween: gsap.core.Tween | null = null;
 
       if (scrollContainerRef.current) {
+        // Pin and translate container
         pinTween = gsap.to(scrollContainerRef.current, {
           x: -scrollAmount,
           ease: "none",
@@ -430,12 +432,37 @@ export default function Home() {
             invalidateOnRefresh: true,
           }
         });
+
+        // Staggered fade and slide-in entrance for the cards when section is reached
+        const cards = gsap.utils.toArray("#process .why-us-card");
+        if (cards.length > 0) {
+          entranceTween = gsap.fromTo(
+            cards,
+            { opacity: 0, y: 50 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.08,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: "#process",
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+              }
+            }
+          );
+        }
       }
 
       return () => {
         if (pinTween) {
           pinTween.scrollTrigger?.kill();
           pinTween.kill();
+        }
+        if (entranceTween) {
+          entranceTween.scrollTrigger?.kill();
+          entranceTween.kill();
         }
       };
     }
@@ -2622,13 +2649,13 @@ export default function Home() {
             <div className="mt-12 w-full overflow-hidden">
               <div 
                 ref={scrollContainerRef} 
-                className="flex flex-row flex-nowrap gap-6 w-max pl-4 sm:pl-6 lg:pl-8 pr-12 pb-6"
+                className="why-us-container flex flex-row flex-nowrap gap-6 w-max pl-4 sm:pl-6 lg:pl-8 pr-12 pb-6"
                 style={{ width: "max-content" }}
               >
                   {/* Card 1 */}
-                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
+                  <div className="why-us-card glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0 cursor-pointer">
                     <div className="text-3xl font-bold text-accent">01</div>
-                    <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                    <div className="icon-wrapper mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Shield className="h-6 w-6" />
                     </div>
                     <h3 className="mt-6 font-bold text-xl">Security First</h3>
@@ -2638,9 +2665,9 @@ export default function Home() {
                   </div>
 
                   {/* Card 2 */}
-                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
+                  <div className="why-us-card glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0 cursor-pointer">
                     <div className="text-3xl font-bold text-accent">02</div>
-                    <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                    <div className="icon-wrapper mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Zap className="h-6 w-6" />
                     </div>
                     <h3 className="mt-6 font-bold text-xl">High Performance</h3>
@@ -2650,9 +2677,9 @@ export default function Home() {
                   </div>
 
                   {/* Card 3 */}
-                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
+                  <div className="why-us-card glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0 cursor-pointer">
                     <div className="text-3xl font-bold text-accent">03</div>
-                    <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                    <div className="icon-wrapper mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Users className="h-6 w-6" />
                     </div>
                     <h3 className="mt-6 font-bold text-xl">Co-Founder Mindset</h3>
@@ -2662,9 +2689,9 @@ export default function Home() {
                   </div>
 
                   {/* Card 4 */}
-                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
+                  <div className="why-us-card glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0 cursor-pointer">
                     <div className="text-3xl font-bold text-accent">04</div>
-                    <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                    <div className="icon-wrapper mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <TrendingUp className="h-6 w-6" />
                     </div>
                     <h3 className="mt-6 font-bold text-xl">Scalable Architecture</h3>
@@ -2674,9 +2701,9 @@ export default function Home() {
                   </div>
 
                   {/* Card 5 */}
-                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
+                  <div className="why-us-card glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0 cursor-pointer">
                     <div className="text-3xl font-bold text-accent">05</div>
-                    <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                    <div className="icon-wrapper mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Clock className="h-6 w-6" />
                     </div>
                     <h3 className="mt-6 font-bold text-xl">Rapid Delivery</h3>
@@ -2686,9 +2713,9 @@ export default function Home() {
                   </div>
 
                   {/* Card 6 */}
-                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
+                  <div className="why-us-card glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0 cursor-pointer">
                     <div className="text-3xl font-bold text-accent">06</div>
-                    <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                    <div className="icon-wrapper mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <HeartHandshake className="h-6 w-6" />
                     </div>
                     <h3 className="mt-6 font-bold text-xl">Dedicated Support</h3>
@@ -2698,9 +2725,9 @@ export default function Home() {
                   </div>
 
                   {/* Card 7 */}
-                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
+                  <div className="why-us-card glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0 cursor-pointer">
                     <div className="text-3xl font-bold text-accent">07</div>
-                    <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                    <div className="icon-wrapper mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Globe className="h-6 w-6" />
                     </div>
                     <h3 className="mt-6 font-bold text-xl">Global Scalability</h3>
@@ -2710,9 +2737,9 @@ export default function Home() {
                   </div>
 
                   {/* Card 8 */}
-                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
+                  <div className="why-us-card glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0 cursor-pointer">
                     <div className="text-3xl font-bold text-accent">08</div>
-                    <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                    <div className="icon-wrapper mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Sparkles className="h-6 w-6" />
                     </div>
                     <h3 className="mt-6 font-bold text-xl">Modern UI/UX</h3>
