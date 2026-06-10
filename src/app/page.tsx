@@ -41,7 +41,9 @@ import {
   Camera,
   Scissors,
   ChefHat,
-  Dumbbell
+  Dumbbell,
+  Clock,
+  HeartHandshake
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -933,18 +935,22 @@ export default function Home() {
   };
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
-  // Mouse position tracking state
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  // Mouse position tracking ref
+  const glowWrapperRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const nx = (e.clientX / window.innerWidth) * 2 - 1;
       const ny = (e.clientY / window.innerHeight) * 2 - 1;
-      setMousePos({ x: nx, y: ny });
+      if (glowWrapperRef.current) {
+        glowWrapperRef.current.style.transform = `translate(${nx * -15}px, ${ny * -15}px)`;
+      }
     };
 
     const handleMouseLeave = () => {
-      setMousePos({ x: 0, y: 0 });
+      if (glowWrapperRef.current) {
+        glowWrapperRef.current.style.transform = `translate(0px, 0px)`;
+      }
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -1009,10 +1015,10 @@ export default function Home() {
       // Stats count up scroll trigger
       const statsObj = { clients: 0, completed: 0, rate: 0, years: 0 };
       gsap.to(statsObj, {
-        clients: 2000,
+        clients: 45,
         completed: 150,
         rate: 98,
-        years: 10,
+        years: 2,
         duration: 2.5,
         ease: "power3.out",
         scrollTrigger: {
@@ -1027,6 +1033,19 @@ export default function Home() {
             rate: Math.floor(statsObj.rate),
             years: Math.floor(statsObj.years)
           });
+        }
+      });
+
+      // Smoothly flatten hero bottom rounded corners on scroll to blend into the next section
+      gsap.to("#hero", {
+        borderBottomLeftRadius: "0px",
+        borderBottomRightRadius: "0px",
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#hero",
+          start: "top top",
+          end: "bottom 60%",
+          scrub: true,
         }
       });
 
@@ -1108,7 +1127,7 @@ export default function Home() {
   // Horizontal Scroll for Why Us
   const whyUsRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({ target: whyUsRef });
-  const xTransform = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
+  const xTransform = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1152,27 +1171,27 @@ export default function Home() {
     <>
       <Navbar />
       <div 
+        ref={glowWrapperRef}
         className="fixed inset-0 pointer-events-none transition-transform duration-300 ease-out z-[1]"
-        style={{ transform: `translate(${mousePos.x * -15}px, ${mousePos.y * -15}px)` }}
       >
         <CanvasGlow />
       </div>
 
       {/* Mainframe Interactive Hero Section (Creatix Style Pivot) */}
-      <section id="hero" className="bg-white text-zinc-900 rounded-b-[40px] sm:rounded-b-[60px] lg:rounded-b-[80px] shadow-2xl relative z-10 pt-20 pb-20 lg:pt-24 lg:pb-14 select-none overflow-hidden transition-all duration-500">
+      <section id="hero" className="bg-white text-zinc-900 rounded-b-[40px] sm:rounded-b-[60px] lg:rounded-b-[80px] shadow-2xl relative z-20 pt-20 pb-28 lg:pt-24 lg:pb-40 select-none overflow-hidden transition-all duration-500">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col items-center">
           
           {/* Centered Heading */}
           <h1
             id="hero-title"
-            className="text-center text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold tracking-tight text-zinc-950 font-sans max-w-5xl leading-tight"
+            className="text-center text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-950 font-sans max-w-4xl leading-tight"
           >
             Empowering Brands <br className="hidden sm:inline" />
             Through Creative Solutions
           </h1>
 
           {/* Three Column Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center w-full mt-10 sm:mt-14 lg:mt-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center w-full mt-6 sm:mt-10 lg:mt-12">
             
             {/* Left Column: Starburst, Intro Paragraph, and Button */}
             <div id="hero-left" className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left gap-6 order-2 lg:order-1">
@@ -1207,11 +1226,11 @@ export default function Home() {
             </div>
 
             {/* Center Column: Portrait Image overlapping buttons wrapper */}
-            <div id="hero-center" className="lg:col-span-4 flex flex-col items-center justify-center relative order-1 lg:order-2 mt-12 sm:mt-16 lg:mt-0">
+            <div id="hero-center" className="lg:col-span-4 flex flex-col items-center justify-center relative order-1 lg:order-2 mt-6 lg:-mt-16">
               {/* Celebrating woman portrait */}
-              <div className="relative z-10 w-[270px] sm:w-[380px] lg:w-[400px] xl:w-[440px] aspect-[1024/912] flex items-end justify-center select-none top-0 lg:-top-8">
+              <div className="relative z-10 w-[270px] sm:w-[360px] lg:w-[360px] xl:w-[400px] aspect-[1024/912] flex items-end justify-center select-none top-0">
                 {/* 3D Depth Radial Aura */}
-                <div className="absolute w-[80%] h-[80%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-tr from-accent/30 to-accent-purple/20 rounded-full blur-[80px] opacity-60 -z-10 pointer-events-none animate-pulse" style={{ animationDuration: "10s" }} />
+                <div className="absolute w-[80%] h-[80%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-tr from-accent/30 to-accent-purple/20 rounded-full blur-[80px] opacity-30 -z-10 pointer-events-none animate-pulse" style={{ animationDuration: "10s" }} />
                 
                 <img
                   src="/header.png"
@@ -1221,7 +1240,7 @@ export default function Home() {
                 />
 
                 {/* Capsule action buttons overlay (Super Glossy Double-Outline Design) */}
-                <div className="absolute -bottom-10 sm:-bottom-7 left-1/2 -translate-x-1/2 z-20 rounded-2xl sm:rounded-full p-[1px] bg-[#cccccc] shadow-[0_20px_45px_rgba(0,0,0,0.35)] w-[calc(100vw-40px)] sm:w-max animate-pulse" style={{ animationDuration: "3s" }}>
+                <div className="absolute -bottom-6 sm:-bottom-4 left-1/2 -translate-x-1/2 z-20 rounded-2xl sm:rounded-full p-[1px] bg-[#cccccc] shadow-[0_20px_45px_rgba(0,0,0,0.35)] w-[calc(100vw-40px)] sm:w-max animate-pulse" style={{ animationDuration: "3s" }}>
                   <div className="rounded-2xl sm:rounded-full bg-black/90 p-2 sm:p-[6px] flex flex-col sm:flex-row items-center gap-2 sm:gap-2.5 border border-white/20 shadow-[inset_0_2px_4px_rgba(255,255,255,0.4)]">
                     <a
                       href="#contact"
@@ -1252,7 +1271,7 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col gap-0.5">
-                <span className="text-3xl sm:text-4xl font-black text-zinc-950 font-sans tracking-tight">10 Years</span>
+                <span className="text-3xl sm:text-4xl font-black text-zinc-950 font-sans tracking-tight">2 Years</span>
                 <span className="text-[10px] sm:text-xs font-bold text-zinc-400 uppercase tracking-widest font-sans">Experience</span>
               </div>
             </div>
@@ -1268,9 +1287,9 @@ export default function Home() {
               target.scrollIntoView({ behavior: "smooth" });
             }
           }}
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1 text-zinc-400 hover:text-zinc-600 transition-colors duration-200 cursor-pointer z-20 group"
+          className="absolute bottom-2 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-0.5 text-zinc-400 hover:text-zinc-600 transition-colors duration-200 cursor-pointer z-20 group"
         >
-          <span className="text-[9px] uppercase font-bold tracking-widest font-sans">Scroll Down</span>
+          <span className="text-[8px] uppercase font-bold tracking-widest font-sans">Scroll Down</span>
           <motion.div
             animate={{ y: [0, 4, 0] }}
             transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
@@ -2534,7 +2553,7 @@ export default function Home() {
 
         {/* Why Us Horizontal Scroll */}
         <section ref={whyUsRef} id="process" className={`border-t border-border-custom bg-background/50 relative ${
-          isMobile ? "h-auto py-16" : "h-[250vh]"
+          isMobile ? "h-auto py-16" : "h-[300vh]"
         }`}>
           <div className={`${
             isMobile ? "relative h-auto flex flex-col justify-center" : "sticky top-0 h-screen flex flex-col justify-center overflow-hidden"
@@ -2599,6 +2618,54 @@ export default function Home() {
                     <h3 className="mt-6 font-bold text-xl">Scalable Architecture</h3>
                     <p className="mt-2 text-sm text-text-secondary leading-relaxed">
                       Designed to grow from early user tests up to millions of requests without code refactoring.
+                    </p>
+                  </div>
+
+                  {/* Card 5 */}
+                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                    <div className="text-3xl font-bold text-accent">05</div>
+                    <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                      <Clock className="h-6 w-6" />
+                    </div>
+                    <h3 className="mt-6 font-bold text-xl">Rapid Delivery</h3>
+                    <p className="mt-2 text-sm text-text-secondary leading-relaxed">
+                      Incremental sprints, continuous deployment pipelines, and active developer feedback loops to launch in weeks.
+                    </p>
+                  </div>
+
+                  {/* Card 6 */}
+                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                    <div className="text-3xl font-bold text-accent">06</div>
+                    <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                      <HeartHandshake className="h-6 w-6" />
+                    </div>
+                    <h3 className="mt-6 font-bold text-xl">Dedicated Support</h3>
+                    <p className="mt-2 text-sm text-text-secondary leading-relaxed">
+                      Post-launch security patches, SLA maintenance guarantees, server load auto-scaling, and constant growth audits.
+                    </p>
+                  </div>
+
+                  {/* Card 7 */}
+                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                    <div className="text-3xl font-bold text-accent">07</div>
+                    <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                      <Globe className="h-6 w-6" />
+                    </div>
+                    <h3 className="mt-6 font-bold text-xl">Global Scalability</h3>
+                    <p className="mt-2 text-sm text-text-secondary leading-relaxed">
+                      Deploy systems globally with multi-region database replication, low-latency CDN routing, and localization readiness.
+                    </p>
+                  </div>
+
+                  {/* Card 8 */}
+                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                    <div className="text-3xl font-bold text-accent">08</div>
+                    <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                      <Sparkles className="h-6 w-6" />
+                    </div>
+                    <h3 className="mt-6 font-bold text-xl">Modern UI/UX</h3>
+                    <p className="mt-2 text-sm text-text-secondary leading-relaxed">
+                      Stunning custom design language, subtle micro-animations, and interactive layouts that maximize engagement.
                     </p>
                   </div>
                 </motion.div>

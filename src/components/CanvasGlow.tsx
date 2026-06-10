@@ -9,6 +9,20 @@ export default function CanvasGlow() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    const isMobileDevice = window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches;
+    if (isMobileDevice) {
+      const handleResize = () => {
+        if (!canvas) return;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+      window.addEventListener("resize", handleResize);
+      handleResize();
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -55,7 +69,7 @@ export default function CanvasGlow() {
     }
 
     const particles: Particle[] = [];
-    const colors = ["#0080ff", "#00c08f", "#0080ff", "#00c08f"];
+    const colors = ["0, 128, 255", "0, 192, 143", "0, 128, 255", "0, 192, 143"];
 
     for (let i = 0; i < 40; i++) {
       particles.push({
@@ -80,24 +94,7 @@ export default function CanvasGlow() {
 
       const isLightMode = document.documentElement.classList.contains("light");
 
-      // Draw subtle grid lines
-      ctx.strokeStyle = isLightMode
-        ? "rgba(0, 128, 255, 0.03)"
-        : "rgba(255, 255, 255, 0.015)";
-      ctx.lineWidth = 1;
-
-      ctx.beginPath();
-      // Vertical grid lines
-      for (let x = 0; x < width; x += cellSize) {
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, height);
-      }
-      // Horizontal grid lines
-      for (let y = 0; y < height; y += cellSize) {
-        ctx.moveTo(0, y);
-        ctx.lineTo(width, y);
-      }
-      ctx.stroke();
+      // Subtle grid lines are now rendered via CSS grid background class (.canvas-glow-grid) for maximum performance
 
       // Draw interactive grid lighting (underneath the cursor)
       if (mouse.x > -500 && mouse.y > -500) {
@@ -159,10 +156,8 @@ export default function CanvasGlow() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = `rgba(${p.color}, ${p.alpha})`;
         ctx.fill();
-        ctx.globalAlpha = 1.0;
       });
 
       animationFrameId = requestAnimationFrame(render);
@@ -181,8 +176,7 @@ export default function CanvasGlow() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-      style={{ mixBlendMode: "screen" }}
+      className="fixed inset-0 pointer-events-none z-0 canvas-glow-grid"
     />
   );
 }

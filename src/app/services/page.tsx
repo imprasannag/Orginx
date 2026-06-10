@@ -289,7 +289,12 @@ export default function ServicesPage() {
       {/* Header */}
       <section className="dot-grid pt-28 pb-12 sm:pt-36 sm:pb-20 relative overflow-hidden">
         {/* Ambient background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[500px] sm:h-[500px] rounded-full bg-accent/10 blur-[100px] sm:blur-[150px] pointer-events-none -z-10" />
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[500px] sm:h-[500px] rounded-full pointer-events-none -z-10" 
+          style={{
+            background: "radial-gradient(circle, rgba(0, 128, 255, 0.1) 0%, transparent 70%)"
+          }}
+        />
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <span
             id="services-hero-label"
@@ -326,16 +331,22 @@ export default function ServicesPage() {
               className="border-b border-border-custom py-14 sm:py-20 lg:py-28 relative overflow-hidden"
             >
               {/* Parallax ambient background glow orb */}
-              <div className={`bg-glow-orb absolute w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] rounded-full blur-[80px] sm:blur-[120px] opacity-15 pointer-events-none -z-10 ${
-                isEven ? "-left-40 bg-accent" : "-right-40 bg-accent-purple"
-              }`} style={{ top: "10%" }} />
+              <div 
+                className="bg-glow-orb absolute w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] rounded-full opacity-25 pointer-events-none -z-10" 
+                style={{ 
+                  top: "10%",
+                  left: isEven ? "-10rem" : "auto",
+                  right: isEven ? "auto" : "-10rem",
+                  background: `radial-gradient(circle, var(${isEven ? "--accent" : "--accent-purple"}) 0%, transparent 70%)`
+                }} 
+              />
 
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
                   
                   {/* Text Column (Glassmorphic Card) */}
                   <div
-                    className={`service-card rounded-3xl border border-border-custom/80 dark:border-border-custom/50 bg-card-bg-custom/80 dark:bg-card-bg-custom/30 p-5 sm:p-8 lg:p-12 backdrop-blur-md shadow-xs hover:shadow-lg hover:shadow-accent/3 hover:border-accent/30 dark:hover:border-accent/20 hover:bg-card-bg-custom/95 dark:hover:bg-card-bg-custom/45 transition-all duration-500 group/card relative overflow-hidden ${
+                    className={`service-card rounded-3xl border border-border-custom/80 dark:border-border-custom/50 bg-card-bg-custom/80 dark:bg-card-bg-custom/30 p-5 sm:p-8 lg:p-12 shadow-xs hover:shadow-lg hover:shadow-accent/3 hover:border-accent/30 dark:hover:border-accent/20 hover:bg-card-bg-custom/95 dark:hover:bg-card-bg-custom/45 transition-all duration-500 group/card relative overflow-hidden ${
                       !isEven ? "lg:order-2" : ""
                     }`}
                   >
@@ -403,7 +414,7 @@ export default function ServicesPage() {
                       src={service.image}
                       alt={service.title}
                       className="parallax-img absolute inset-0 h-[130%] w-full object-cover transition-transform duration-700 group-hover/img:scale-105"
-                      style={{ top: "-15%" }}
+                      style={{ top: "-15%", willChange: "transform" }}
                       loading="lazy"
                     />
                   </div>

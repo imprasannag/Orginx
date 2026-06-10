@@ -10,6 +10,7 @@
   --card-bg: #0b0b0c;
   --card-hover: #121214;
   --text-secondary: #94a3b8;
+  --canvas-grid: rgba(255, 255, 255, 0.015);
 
   /* Fonts for Mainframe Integration */
   --font-heading: 'HelveticaNowDisplay-Medium', 'Helvetica Neue', Arial, sans-serif;
@@ -26,6 +27,7 @@
   --card-bg: rgba(255, 255, 255, 0.85);
   --card-hover: rgba(255, 255, 255, 0.95);
   --text-secondary: #4b5563;
+  --canvas-grid: rgba(0, 128, 255, 0.03);
 }
 
 @theme {
@@ -58,6 +60,13 @@ body {
 
 .light .dot-grid {
   background-image: radial-gradient(circle, rgba(0, 128, 255, 0.12) 1px, transparent 1px);
+}
+
+.canvas-glow-grid {
+  background-image: 
+    linear-gradient(to right, var(--canvas-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--canvas-grid) 1px, transparent 1px);
+  background-size: 50px 50px;
 }
 
 .glow-card {
