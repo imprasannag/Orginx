@@ -1165,14 +1165,14 @@ export default function Home() {
           {/* Centered Heading */}
           <h1
             id="hero-title"
-            className="text-center text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-950 font-sans max-w-4xl leading-tight"
+            className="text-center text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold tracking-tight text-zinc-950 font-sans max-w-5xl leading-tight"
           >
             Empowering Brands <br className="hidden sm:inline" />
             Through Creative Solutions
           </h1>
 
           {/* Three Column Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center w-full mt-6 sm:mt-10 lg:mt-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center w-full mt-10 sm:mt-14 lg:mt-12">
             
             {/* Left Column: Starburst, Intro Paragraph, and Button */}
             <div id="hero-left" className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left gap-6 order-2 lg:order-1">
@@ -1207,9 +1207,9 @@ export default function Home() {
             </div>
 
             {/* Center Column: Portrait Image overlapping buttons wrapper */}
-            <div id="hero-center" className="lg:col-span-4 flex flex-col items-center justify-center relative order-1 lg:order-2 mt-6 lg:-mt-16">
+            <div id="hero-center" className="lg:col-span-4 flex flex-col items-center justify-center relative order-1 lg:order-2 mt-12 sm:mt-16 lg:mt-0">
               {/* Celebrating woman portrait */}
-              <div className="relative z-10 w-[270px] sm:w-[380px] lg:w-[400px] xl:w-[440px] aspect-[1024/912] flex items-end justify-center select-none top-0 lg:-top-20">
+              <div className="relative z-10 w-[270px] sm:w-[380px] lg:w-[400px] xl:w-[440px] aspect-[1024/912] flex items-end justify-center select-none top-0 lg:-top-8">
                 {/* 3D Depth Radial Aura */}
                 <div className="absolute w-[80%] h-[80%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-tr from-accent/30 to-accent-purple/20 rounded-full blur-[80px] opacity-60 -z-10 pointer-events-none animate-pulse" style={{ animationDuration: "10s" }} />
                 

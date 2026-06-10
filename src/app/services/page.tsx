@@ -335,7 +335,7 @@ export default function ServicesPage() {
                   
                   {/* Text Column (Glassmorphic Card) */}
                   <div
-                    className={`service-card rounded-3xl border border-border-custom/85 bg-card-bg-custom/15 p-5 sm:p-8 lg:p-12 backdrop-blur-md shadow-xs hover:shadow-lg hover:shadow-accent/3 hover:border-accent/20 hover:bg-card-bg-custom/25 transition-all duration-500 group/card relative overflow-hidden ${
+                    className={`service-card rounded-3xl border border-border-custom/80 dark:border-border-custom/50 bg-card-bg-custom/80 dark:bg-card-bg-custom/30 p-5 sm:p-8 lg:p-12 backdrop-blur-md shadow-xs hover:shadow-lg hover:shadow-accent/3 hover:border-accent/30 dark:hover:border-accent/20 hover:bg-card-bg-custom/95 dark:hover:bg-card-bg-custom/45 transition-all duration-500 group/card relative overflow-hidden ${
                       !isEven ? "lg:order-2" : ""
                     }`}
                   >
@@ -351,7 +351,7 @@ export default function ServicesPage() {
                       </span>
                     </div>
 
-                    <h2 className="mt-4 sm:mt-6 text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-foreground service-animate opacity-0 group-hover/card:text-white transition-colors duration-300">
+                    <h2 className="mt-4 sm:mt-6 text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-foreground service-animate opacity-0 group-hover/card:text-accent transition-colors duration-300">
                       {service.title}
                     </h2>
 
@@ -363,9 +363,9 @@ export default function ServicesPage() {
                       {service.features.map((feat) => (
                         <div
                           key={feat}
-                          className="flex items-start gap-3 p-2.5 sm:p-3 rounded-xl border border-border-custom/40 bg-black/10 hover:bg-black/35 hover:border-accent/15 transition-all duration-300 group/item"
+                          className="flex items-start gap-3 p-2.5 sm:p-3 rounded-xl border border-border-custom/40 bg-foreground/[0.04] dark:bg-black/25 hover:bg-foreground/[0.08] dark:hover:bg-black/45 hover:border-accent/20 dark:hover:border-accent/15 transition-all duration-300 group/item"
                         >
-                          <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent group-hover/item:bg-accent group-hover/item:text-black transition-colors duration-300 shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)] mt-0.5">
+                          <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent group-hover/item:bg-accent group-hover/item:text-background transition-colors duration-300 shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)] mt-0.5">
                             <Check className="h-3 w-3" />
                           </div>
                           <span className="text-xs sm:text-sm text-text-secondary group-hover/item:text-foreground transition-colors duration-300 leading-tight">{feat}</span>
@@ -374,8 +374,8 @@ export default function ServicesPage() {
                     </div>
 
                     <div className="mt-8 sm:mt-10 service-animate opacity-0">
-                      <div className="rounded-full p-[1px] bg-[#cccccc] shadow-[0_6px_15px_rgba(0,0,0,0.15)] w-max hover:scale-[1.03] transition-transform duration-300">
-                        <div className="rounded-full bg-black/95 p-1 flex items-center border border-white/10 shadow-[inset_0_1px_2px_rgba(255,255,255,0.3)]">
+                      <div className="rounded-full p-[1px] bg-zinc-300 dark:bg-[#cccccc] shadow-[0_6px_15px_rgba(0,0,0,0.1)] dark:shadow-[0_6px_15px_rgba(0,0,0,0.25)] w-max hover:scale-[1.03] transition-transform duration-300">
+                        <div className="rounded-full bg-white dark:bg-black/95 p-1 flex items-center border border-black/5 dark:border-white/10 shadow-[inset_0_1px_2px_rgba(255,255,255,0.5)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.3)]">
                           <Link
                             href="/#contact"
                             className="bg-accent hover:bg-accent/80 text-white rounded-full px-5 py-2 sm:py-2.5 text-[10px] sm:text-xs font-black transition-all whitespace-nowrap shadow-[0_0_12px_rgba(0,128,255,0.45),inset_0_1px_2px_rgba(255,255,255,0.4)] flex items-center gap-1.5 border border-white/10"
