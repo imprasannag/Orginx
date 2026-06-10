@@ -377,6 +377,16 @@ const CategoryIcon = ({ name, className }: { name: string; className?: string })
 
 export default function Home() {
   const [stats, setStats] = useState({ clients: 0, completed: 0, rate: 0, years: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Widget states for Capabilities Bento Grid
   const [sandboxState, setSandboxState] = useState<"idle" | "loading" | "success">("idle");
@@ -1204,17 +1214,17 @@ export default function Home() {
                 />
 
                 {/* Capsule action buttons overlay (Super Glossy Double-Outline Design) */}
-                <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 z-20 rounded-full p-[1px] bg-[#cccccc] shadow-[0_20px_45px_rgba(0,0,0,0.35)] w-max animate-pulse" style={{ animationDuration: "3s" }}>
-                  <div className="rounded-full bg-black/90 p-[6px] flex items-center gap-2.5 border border-white/20 shadow-[inset_0_2px_4px_rgba(255,255,255,0.4)]">
+                <div className="absolute -bottom-10 sm:-bottom-7 left-1/2 -translate-x-1/2 z-20 rounded-2xl sm:rounded-full p-[1px] bg-[#cccccc] shadow-[0_20px_45px_rgba(0,0,0,0.35)] w-[calc(100vw-40px)] sm:w-max animate-pulse" style={{ animationDuration: "3s" }}>
+                  <div className="rounded-2xl sm:rounded-full bg-black/90 p-2 sm:p-[6px] flex flex-col sm:flex-row items-center gap-2 sm:gap-2.5 border border-white/20 shadow-[inset_0_2px_4px_rgba(255,255,255,0.4)]">
                     <a
                       href="#contact"
-                      className="bg-accent hover:bg-accent/80 text-white rounded-full px-6 py-2.5 text-xs font-black transition-all whitespace-nowrap cursor-pointer shadow-[0_0_20px_rgba(0,128,255,0.55),inset_0_1px_2px_rgba(255,255,255,0.4)] hover:scale-[1.03] border border-white/10"
+                      className="w-full sm:w-auto text-center bg-accent hover:bg-accent/80 text-white rounded-xl sm:rounded-full px-6 py-2.5 text-xs font-black transition-all whitespace-nowrap cursor-pointer shadow-[0_0_20px_rgba(0,128,255,0.55),inset_0_1px_2px_rgba(255,255,255,0.4)] hover:scale-[1.03] border border-white/10"
                     >
                       Start Your Project
                     </a>
                     <a
                       href="#contact"
-                      className="border border-white/20 hover:border-white/40 bg-[#151515] hover:bg-[#252525] text-white rounded-full px-5 py-2.5 text-xs font-bold transition-all whitespace-nowrap cursor-pointer shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] hover:scale-[1.01]"
+                      className="w-full sm:w-auto text-center border border-white/20 hover:border-white/40 bg-[#151515] hover:bg-[#252525] text-white rounded-xl sm:rounded-full px-5 py-2.5 text-xs font-bold transition-all whitespace-nowrap cursor-pointer shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] hover:scale-[1.01]"
                     >
                       Let&apos;s Collaborate
                     </a>
@@ -1508,12 +1518,12 @@ export default function Home() {
               {/* Right Column: 3D Flip Card Preview */}
               <div className="lg:col-span-6 flex flex-col gap-6 items-center justify-center">
                 <div 
-                  className="relative w-full max-w-[420px] aspect-[1.75/1] cursor-pointer"
+                  className="relative w-full max-w-[420px] aspect-[1.75/1] cursor-pointer @container"
                   style={{ perspective: "1200px" }}
                   onClick={() => setCardFlipped(!cardFlipped)}
                 >
                   <div
-                    className="relative w-full h-full rounded-2xl transition-transform duration-700 shadow-[0_20px_50px_rgba(0,0,0,0.15)] select-none"
+                    className="relative w-full h-full rounded-2xl transition-transform duration-700 shadow-[0_20px_50px_rgba(0,0,0,0.15)] select-none @container"
                     style={{
                       transformStyle: "preserve-3d",
                       transform: cardFlipped ? "rotateY(180deg)" : "rotateY(0deg)"
@@ -1522,7 +1532,7 @@ export default function Home() {
                     
                     {/* CARD FRONT */}
                     <div
-                      className={`absolute inset-0 w-full h-full rounded-2xl p-6 border flex flex-col justify-between overflow-hidden shadow-inner ${style.bg} ${style.border}`}
+                      className={`absolute inset-0 w-full h-full rounded-2xl p-[5.5cqw] sm:p-6 border flex flex-col justify-between overflow-hidden shadow-inner ${style.bg} ${style.border}`}
                       style={{ backfaceVisibility: "hidden" }}
                     >
                       {/* Background Category vectors */}
@@ -1605,31 +1615,31 @@ export default function Home() {
 
                       {/* Header Logo pill */}
                       <div className="flex justify-between items-start z-10">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-[2cqw] sm:gap-2">
                           {logoUrl ? (
                             <>
-                              <img src={logoUrl} alt="Logo" className="h-9 w-9 rounded-lg object-contain border border-white/20 bg-white/5 p-0.5" />
-                              <span className={`font-extrabold text-sm tracking-wider uppercase ${style.textPrimary}`}>{cardBusinessName || "OrginX"}</span>
+                              <img src={logoUrl} alt="Logo" className="h-[8.5cqw] w-[8.5cqw] sm:h-9 sm:w-9 rounded-lg object-contain border border-white/20 bg-white/5 p-0.5" />
+                              <span className={`font-extrabold text-[3.3cqw] sm:text-sm tracking-wider uppercase ${style.textPrimary}`}>{cardBusinessName || "OrginX"}</span>
                             </>
                           ) : (
                             <>
-                              <div className={`h-9 w-9 rounded-lg ${style.accentBg} flex items-center justify-center font-black text-xs text-white border border-white/20 shadow-lg`}>
-                                <CategoryIcon name={CATEGORIES_CONFIG[cardCategory].iconName} className="h-5 w-5 text-white" />
+                              <div className={`h-[8.5cqw] w-[8.5cqw] sm:h-9 sm:w-9 rounded-lg ${style.accentBg} flex items-center justify-center font-black text-xs text-white border border-white/20 shadow-lg`}>
+                                <CategoryIcon name={CATEGORIES_CONFIG[cardCategory].iconName} className="h-[4.8cqw] w-[4.8cqw] sm:h-5 sm:w-5 text-white" />
                               </div>
-                              <span className={`font-extrabold text-sm tracking-wider uppercase ${style.textPrimary}`}>{cardBusinessName || "OrginX"}</span>
+                              <span className={`font-extrabold text-[3.3cqw] sm:text-sm tracking-wider uppercase ${style.textPrimary}`}>{cardBusinessName || "OrginX"}</span>
                             </>
                           )}
                         </div>
-                        <span className={`text-[8px] font-mono tracking-widest uppercase ${style.textSecondary}`}>Smart NFC Ready</span>
+                        <span className={`text-[1.8cqw] sm:text-[8px] font-mono tracking-widest uppercase ${style.textSecondary}`}>Smart NFC Ready</span>
                       </div>
 
                       {/* Core Content */}
                       <div className="z-10 flex flex-col gap-0.5">
-                        <span className={`text-[8px] font-mono tracking-widest font-bold uppercase ${style.accent}`}>{cardTitle || "CORPORATE IDENTITY CARD"}</span>
-                        <h3 className={`text-xl sm:text-2xl font-black tracking-tight leading-tight uppercase font-sans ${style.textPrimary}`}>
+                        <span className={`text-[1.8cqw] sm:text-[8px] font-mono tracking-widest font-bold uppercase ${style.accent}`}>{cardTitle || "CORPORATE IDENTITY CARD"}</span>
+                        <h3 className={`text-[5.5cqw] sm:text-2xl font-black tracking-tight leading-tight uppercase font-sans ${style.textPrimary}`}>
                           {cardBusinessName || "OrginX"}
                         </h3>
-                        <p className={`text-[9px] tracking-wider ${style.textSecondary}`}>{cardTagline || "CREATIVE STUDIO & SOFTWARE HOUSE"}</p>
+                        <p className={`text-[2.2cqw] sm:text-[9px] tracking-wider ${style.textSecondary}`}>{cardTagline || "CREATIVE STUDIO & SOFTWARE HOUSE"}</p>
                       </div>
 
                       {/* Card Shimmer lighting shine overlay */}
@@ -1638,7 +1648,7 @@ export default function Home() {
 
                     {/* CARD BACK */}
                     <div
-                      className={`absolute inset-0 w-full h-full rounded-2xl p-6 border flex flex-col justify-between overflow-hidden shadow-inner ${style.bg} ${style.border}`}
+                      className={`absolute inset-0 w-full h-full rounded-2xl p-[5.5cqw] sm:p-6 border flex flex-col justify-between overflow-hidden shadow-inner ${style.bg} ${style.border}`}
                       style={{
                         backfaceVisibility: "hidden",
                         transform: "rotateY(180deg)"
@@ -1725,20 +1735,20 @@ export default function Home() {
                       {/* Top Bar: Name & Title */}
                       <div className="flex justify-between items-start z-10">
                         <div className="flex flex-col">
-                          <h4 className={`text-sm sm:text-base font-black tracking-tight uppercase leading-none truncate max-w-[200px] ${style.textPrimary}`} title={cardName}>
+                          <h4 className={`text-[3.5cqw] sm:text-base font-black tracking-tight uppercase leading-none truncate max-w-[45cqw] sm:max-w-[200px] ${style.textPrimary}`} title={cardName}>
                             {cardName || "Dharshan K"}
                           </h4>
-                          <span className={`text-[7.5px] font-bold tracking-wider uppercase mt-1 ${style.textSecondary}`}>
+                          <span className={`text-[1.8cqw] sm:text-[7.5px] font-bold tracking-wider uppercase mt-1 ${style.textSecondary}`}>
                             {cardTitle || "FOUNDER & LEAD ENGINEER"}
                           </span>
                         </div>
-                        <span className={`text-[7px] font-mono tracking-widest uppercase ${style.textSecondary}`}>Backside Layout</span>
+                        <span className={`text-[1.7cqw] sm:text-[7px] font-mono tracking-widest uppercase ${style.textSecondary}`}>Backside Layout</span>
                       </div>
 
                       {/* Middle Details Grid */}
-                      <div className="flex gap-3 items-center z-10 my-1">
+                      <div className="flex gap-[2.5cqw] sm:gap-3 items-center z-10 my-1">
                         {/* Profile Image Frame */}
-                        <div className={`h-16 w-16 rounded-full overflow-hidden border bg-white/5 flex-shrink-0 ${style.border}`}>
+                        <div className={`h-[15cqw] w-[15cqw] sm:h-16 sm:w-16 rounded-full overflow-hidden border bg-white/5 flex-shrink-0 ${style.border}`}>
                           <img
                             src={profileUrl || defaultProfileDataUrl || "/user_photo.jpg"}
                             alt="Profile"
@@ -1747,21 +1757,21 @@ export default function Home() {
                         </div>
 
                         {/* Contact details */}
-                        <div className={`flex-1 flex flex-col gap-1 text-[9px] font-mono ${style.textSecondary}`}>
-                          <span className="flex items-center gap-1.5 truncate max-w-[170px] sm:max-w-[200px]" title={cardPhone}>
-                            <Phone className={`h-2.5 w-2.5 flex-shrink-0 ${style.accent}`} />
+                        <div className={`flex-1 flex flex-col gap-[0.5cqw] sm:gap-1 text-[2.2cqw] sm:text-[9px] font-mono ${style.textSecondary}`}>
+                          <span className="flex items-center gap-[1.5cqw] sm:gap-1.5 truncate max-w-[42cqw] sm:max-w-[200px]" title={cardPhone}>
+                            <Phone className={`h-[2.5cqw] w-[2.5cqw] sm:h-2.5 sm:w-2.5 flex-shrink-0 ${style.accent}`} />
                             {cardPhone || "+91 98765 43210"}
                           </span>
-                          <span className="flex items-center gap-1.5 truncate max-w-[170px] sm:max-w-[200px]" title={cardEmail}>
-                            <Mail className={`h-2.5 w-2.5 flex-shrink-0 ${style.accent}`} />
+                          <span className="flex items-center gap-[1.5cqw] sm:gap-1.5 truncate max-w-[42cqw] sm:max-w-[200px]" title={cardEmail}>
+                            <Mail className={`h-[2.5cqw] w-[2.5cqw] sm:h-2.5 sm:w-2.5 flex-shrink-0 ${style.accent}`} />
                             {cardEmail || "orginxindia@gmail.com"}
                           </span>
-                          <span className="flex items-center gap-1.5 truncate max-w-[170px] sm:max-w-[200px]" title={cardWebsite}>
-                            <Globe className={`h-2.5 w-2.5 flex-shrink-0 ${style.accent}`} />
+                          <span className="flex items-center gap-[1.5cqw] sm:gap-1.5 truncate max-w-[42cqw] sm:max-w-[200px]" title={cardWebsite}>
+                            <Globe className={`h-[2.5cqw] w-[2.5cqw] sm:h-2.5 sm:w-2.5 flex-shrink-0 ${style.accent}`} />
                             {cardWebsite || "www.orginx.com"}
                           </span>
-                          <span className="flex items-center gap-1.5 truncate max-w-[170px] sm:max-w-[200px]" title={cardAddress}>
-                            <MapPin className={`h-2.5 w-2.5 flex-shrink-0 ${style.accent}`} />
+                          <span className="flex items-center gap-[1.5cqw] sm:gap-1.5 truncate max-w-[42cqw] sm:max-w-[200px]" title={cardAddress}>
+                            <MapPin className={`h-[2.5cqw] w-[2.5cqw] sm:h-2.5 sm:w-2.5 flex-shrink-0 ${style.accent}`} />
                             {cardAddress || "Bangalore, India"}
                           </span>
                         </div>
@@ -1772,7 +1782,7 @@ export default function Home() {
                             e.stopPropagation(); // prevent card flip
                             setIsQrModalOpen(true);
                           }}
-                          className="h-16 w-16 bg-white p-0.5 rounded-lg border border-white/20 shadow-md flex-shrink-0 flex items-center justify-center cursor-zoom-in hover:scale-105 active:scale-95 transition-transform"
+                          className="h-[15cqw] w-[15cqw] sm:h-16 sm:w-16 bg-white p-[0.5cqw] sm:p-0.5 rounded-lg border border-white/20 shadow-md flex-shrink-0 flex items-center justify-center cursor-zoom-in hover:scale-105 active:scale-95 transition-transform"
                           title="Click to expand and scan QR code"
                         >
                           {qrCodeDataUrl ? (
@@ -1787,11 +1797,11 @@ export default function Home() {
                         </div>
                       </div>
 
-                      <div className={`flex justify-between items-center z-10 pt-1.5 border-t ${style.border}`}>
-                        <span className={`text-[7px] font-mono tracking-wider ${style.textSecondary}`}>TAP WITH PHONE FOR CONTACT TRANSFERS</span>
-                        <div className="flex items-center gap-1">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                          <span className={`text-[7px] font-bold tracking-wider uppercase font-mono ${style.textSecondary}`}>Tap Active</span>
+                      <div className={`flex justify-between items-center z-10 pt-[1.5cqw] sm:pt-1.5 border-t ${style.border}`}>
+                        <span className={`text-[1.8cqw] sm:text-[7px] font-mono tracking-wider ${style.textSecondary}`}>TAP WITH PHONE FOR CONTACT TRANSFERS</span>
+                        <div className="flex items-center gap-[0.8cqw] sm:gap-1">
+                          <span className="h-[1.5cqw] w-[1.5cqw] sm:h-1.5 sm:w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className={`text-[1.8cqw] sm:text-[7px] font-bold tracking-wider uppercase font-mono ${style.textSecondary}`}>Tap Active</span>
                         </div>
                       </div>
                     </div>
@@ -2407,6 +2417,7 @@ export default function Home() {
 
                       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-3 relative">
                         <div className="absolute left-[30px] right-[30px] top-1/2 -translate-y-1/2 h-0.5 bg-zinc-800 hidden sm:block z-0" />
+                        <div className="absolute top-[30px] bottom-[30px] left-1/2 -translate-x-1/2 w-0.5 bg-zinc-800 sm:hidden block z-0" />
                         
                         {/* Node 1 */}
                         <div className={`relative z-10 flex flex-col items-center gap-1 p-2 rounded-xl border transition-all duration-300 w-24 text-center ${
@@ -2515,8 +2526,12 @@ export default function Home() {
         </section>
 
         {/* Why Us Horizontal Scroll */}
-        <section ref={whyUsRef} id="process" className="relative h-[250vh] border-t border-border-custom bg-background/50">
-          <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
+        <section ref={whyUsRef} id="process" className={`border-t border-border-custom bg-background/50 relative ${
+          isMobile ? "h-auto py-16" : "h-[250vh]"
+        }`}>
+          <div className={`${
+            isMobile ? "relative h-auto flex flex-col justify-center" : "sticky top-0 h-screen flex flex-col justify-center overflow-hidden"
+          }`}>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
               <div className="max-w-xl">
                 <span className="label">Why Choose Us</span>
@@ -2524,16 +2539,16 @@ export default function Home() {
                   The OrginX Standard.
                 </h2>
                 <p className="mt-4 text-text-secondary text-sm">
-                  Scroll down to navigate through our core engineering principles.
+                  {isMobile ? "Explore our core engineering principles." : "Scroll down to navigate through our core engineering principles."}
                 </p>
               </div>
             </div>
 
             <div className="mt-12 w-full">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <motion.div style={{ x: xTransform }} className="flex gap-6 w-max">
+                <motion.div style={{ x: isMobile ? 0 : xTransform }} className="grid grid-cols-1 sm:grid-cols-2 md:flex md:w-max gap-6 w-full">
                   {/* Card 1 */}
-                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
                     <div className="text-3xl font-bold text-accent">01</div>
                     <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Shield className="h-6 w-6" />
@@ -2545,7 +2560,7 @@ export default function Home() {
                   </div>
 
                   {/* Card 2 */}
-                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
                     <div className="text-3xl font-bold text-accent">02</div>
                     <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Zap className="h-6 w-6" />
@@ -2557,7 +2572,7 @@ export default function Home() {
                   </div>
 
                   {/* Card 3 */}
-                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
                     <div className="text-3xl font-bold text-accent">03</div>
                     <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Users className="h-6 w-6" />
@@ -2569,7 +2584,7 @@ export default function Home() {
                   </div>
 
                   {/* Card 4 */}
-                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
                     <div className="text-3xl font-bold text-accent">04</div>
                     <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <TrendingUp className="h-6 w-6" />
