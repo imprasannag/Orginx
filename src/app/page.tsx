@@ -466,16 +466,18 @@ export default function Home() {
 
   useEffect(() => {
     // Structured vCard with CRLF line endings, FN property, phone, and website
+    const cleanPhone = cardPhone.replace(/\s+/g, "");
+    const cleanWebsite = cardWebsite.startsWith("http") ? cardWebsite : `https://${cardWebsite}`;
     const vcardData = [
       "BEGIN:VCARD",
       "VERSION:3.0",
+      `N:${cardName};;;;`,
       `FN:${cardName}`,
-      `N:;${cardName};;;`,
-      `TITLE:${cardTitle}`,
       `ORG:${cardBusinessName}`,
-      `TEL;TYPE=CELL,VOICE:${cardPhone}`,
-      `EMAIL;TYPE=PREF,INTERNET:${cardEmail}`,
-      `URL:${cardWebsite}`,
+      `TITLE:${cardTitle}`,
+      `TEL;TYPE=CELL:${cleanPhone}`,
+      `EMAIL;TYPE=INTERNET,WORK:${cardEmail}`,
+      `URL;TYPE=WORK:${cleanWebsite}`,
       `ADR;TYPE=WORK:;;${cardAddress};;;;`,
       "END:VCARD"
     ].join("\r\n");
@@ -1157,7 +1159,7 @@ export default function Home() {
       </div>
 
       {/* Mainframe Interactive Hero Section (Creatix Style Pivot) */}
-      <section id="hero" className="bg-white text-zinc-900 rounded-b-[40px] sm:rounded-b-[60px] lg:rounded-b-[80px] shadow-2xl relative z-10 pt-20 pb-10 lg:pt-24 lg:pb-14 select-none overflow-hidden transition-all duration-500">
+      <section id="hero" className="bg-white text-zinc-900 rounded-b-[40px] sm:rounded-b-[60px] lg:rounded-b-[80px] shadow-2xl relative z-10 pt-20 pb-20 lg:pt-24 lg:pb-14 select-none overflow-hidden transition-all duration-500">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col items-center">
           
           {/* Centered Heading */}
@@ -1266,7 +1268,7 @@ export default function Home() {
               target.scrollIntoView({ behavior: "smooth" });
             }
           }}
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-zinc-400 hover:text-zinc-600 transition-colors duration-200 cursor-pointer z-20 group"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1 text-zinc-400 hover:text-zinc-600 transition-colors duration-200 cursor-pointer z-20 group"
         >
           <span className="text-[9px] uppercase font-bold tracking-widest font-sans">Scroll Down</span>
           <motion.div

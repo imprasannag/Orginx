@@ -90,12 +90,12 @@ export default function WhatsAppWidget() {
                 className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-3.5 text-foreground transition-all duration-300 hover:translate-y-[-2px] hover:border-[#25D366]/40 hover:bg-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_8px_20px_rgba(37,211,102,0.15)] relative overflow-hidden group"
               >
                 <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-purple-500 font-black text-white border border-white/15 shadow-md">
-                  OX
+                  V
                   <span className="absolute -bottom-1 -right-1 h-3 w-3 rounded-full border-2 border-zinc-900 bg-[#4caf50]" />
                 </div>
                 <div className="flex-grow">
-                  <div className="font-extrabold text-sm leading-none text-white tracking-tight group-hover:text-[#25D366] transition-colors">Sales & Business</div>
-                  <div className="mt-1 text-xs text-zinc-400">Strategy & Partnerships</div>
+                  <div className="font-extrabold text-sm leading-none text-white tracking-tight group-hover:text-[#25D366] transition-colors">Viswanth</div>
+                  <div className="mt-1 text-xs text-zinc-400">Sales & Co-Founder</div>
                 </div>
                 <MessageSquare className="h-4 w-4 text-[#25D366] group-hover:scale-110 transition-transform" />
               </a>
