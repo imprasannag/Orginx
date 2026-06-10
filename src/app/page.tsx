@@ -2589,9 +2589,12 @@ export default function Home() {
 
             <div className="mt-12 w-full">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div ref={scrollContainerRef} className="grid grid-cols-1 sm:grid-cols-2 md:flex md:w-max gap-6 w-full">
+                <div 
+                  ref={scrollContainerRef} 
+                  className="flex overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none gap-6 w-full pb-6 scrollbar-none md:w-max"
+                >
                   {/* Card 1 */}
-                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
                     <div className="text-3xl font-bold text-accent">01</div>
                     <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Shield className="h-6 w-6" />
@@ -2603,7 +2606,7 @@ export default function Home() {
                   </div>
 
                   {/* Card 2 */}
-                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
                     <div className="text-3xl font-bold text-accent">02</div>
                     <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Zap className="h-6 w-6" />
@@ -2615,7 +2618,7 @@ export default function Home() {
                   </div>
 
                   {/* Card 3 */}
-                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
                     <div className="text-3xl font-bold text-accent">03</div>
                     <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Users className="h-6 w-6" />
@@ -2627,7 +2630,7 @@ export default function Home() {
                   </div>
 
                   {/* Card 4 */}
-                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
                     <div className="text-3xl font-bold text-accent">04</div>
                     <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <TrendingUp className="h-6 w-6" />
@@ -2639,7 +2642,7 @@ export default function Home() {
                   </div>
 
                   {/* Card 5 */}
-                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
                     <div className="text-3xl font-bold text-accent">05</div>
                     <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Clock className="h-6 w-6" />
@@ -2651,7 +2654,7 @@ export default function Home() {
                   </div>
 
                   {/* Card 6 */}
-                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
                     <div className="text-3xl font-bold text-accent">06</div>
                     <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <HeartHandshake className="h-6 w-6" />
@@ -2663,7 +2666,7 @@ export default function Home() {
                   </div>
 
                   {/* Card 7 */}
-                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
                     <div className="text-3xl font-bold text-accent">07</div>
                     <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Globe className="h-6 w-6" />
@@ -2675,7 +2678,7 @@ export default function Home() {
                   </div>
 
                   {/* Card 8 */}
-                  <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
+                  <div className="glow-card active w-[280px] sm:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8 snap-center flex-shrink-0">
                     <div className="text-3xl font-bold text-accent">08</div>
                     <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
                       <Sparkles className="h-6 w-6" />
