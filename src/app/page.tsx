@@ -961,22 +961,27 @@ export default function Home() {
     if (typeof window !== "undefined") {
       gsap.registerPlugin(ScrollTrigger);
 
-      // Initialize Lenis smooth scroll
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-      });
+      // Initialize Lenis smooth scroll if not on mobile
+      let lenis: Lenis | null = null;
+      let updateTicker: ((time: number) => void) | null = null;
 
-      lenis.on("scroll", () => {
-        ScrollTrigger.update();
-      });
+      if (window.innerWidth >= 768) {
+        lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+        });
 
-      const updateTicker = (time: number) => {
-        lenis.raf(time * 1000);
-      };
+        lenis.on("scroll", () => {
+          ScrollTrigger.update();
+        });
 
-      gsap.ticker.add(updateTicker);
+        updateTicker = (time: number) => {
+          lenis?.raf(time * 1000);
+        };
+
+        gsap.ticker.add(updateTicker);
+      }
       gsap.ticker.lagSmoothing(0);
 
       // Hero elements entrance animations
@@ -1089,8 +1094,8 @@ export default function Home() {
       window.addEventListener("load", handleWindowLoad);
 
       return () => {
-        lenis.destroy();
-        gsap.ticker.remove(updateTicker);
+        if (lenis) lenis.destroy();
+        if (updateTicker) gsap.ticker.remove(updateTicker);
         ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
         refreshTimers.forEach((timer) => clearTimeout(timer));
         window.removeEventListener("load", handleWindowLoad);
@@ -1200,9 +1205,9 @@ export default function Home() {
             </div>
 
             {/* Center Column: Portrait Image overlapping buttons wrapper */}
-            <div id="hero-center" className="lg:col-span-4 flex flex-col items-center justify-center relative order-1 lg:order-2 -mt-6 sm:-mt-10 lg:-mt-16">
+            <div id="hero-center" className="lg:col-span-4 flex flex-col items-center justify-center relative order-1 lg:order-2 mt-6 lg:-mt-16">
               {/* Celebrating woman portrait */}
-              <div className="relative z-10 w-[270px] sm:w-[380px] lg:w-[400px] xl:w-[440px] aspect-[1024/912] flex items-end justify-center select-none -top-8 sm:-top-12 lg:-top-20">
+              <div className="relative z-10 w-[270px] sm:w-[380px] lg:w-[400px] xl:w-[440px] aspect-[1024/912] flex items-end justify-center select-none top-0 lg:-top-20">
                 {/* 3D Depth Radial Aura */}
                 <div className="absolute w-[80%] h-[80%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-tr from-accent/30 to-accent-purple/20 rounded-full blur-[80px] opacity-60 -z-10 pointer-events-none animate-pulse" style={{ animationDuration: "10s" }} />
                 

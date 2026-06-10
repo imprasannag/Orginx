@@ -157,22 +157,27 @@ export default function ServicesPage() {
     if (typeof window !== "undefined") {
       gsap.registerPlugin(ScrollTrigger);
 
-      // Initialize Lenis smooth scroll
-      const lenis = new Lenis({
-        duration: 1.1,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-      });
+      // Initialize Lenis smooth scroll if not on mobile
+      let lenis: Lenis | null = null;
+      let updateTicker: ((time: number) => void) | null = null;
 
-      lenis.on("scroll", () => {
-        ScrollTrigger.update();
-      });
+      if (window.innerWidth >= 768) {
+        lenis = new Lenis({
+          duration: 1.1,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+        });
 
-      const updateTicker = (time: number) => {
-        lenis.raf(time * 1000);
-      };
+        lenis.on("scroll", () => {
+          ScrollTrigger.update();
+        });
 
-      gsap.ticker.add(updateTicker);
+        updateTicker = (time: number) => {
+          lenis?.raf(time * 1000);
+        };
+
+        gsap.ticker.add(updateTicker);
+      }
       gsap.ticker.lagSmoothing(0);
 
       // Hero animations
@@ -267,8 +272,8 @@ export default function ServicesPage() {
       window.addEventListener("load", handleWindowLoad);
 
       return () => {
-        lenis.destroy();
-        gsap.ticker.remove(updateTicker);
+        if (lenis) lenis.destroy();
+        if (updateTicker) gsap.ticker.remove(updateTicker);
         ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
         refreshTimers.forEach((timer) => clearTimeout(timer));
         window.removeEventListener("load", handleWindowLoad);
