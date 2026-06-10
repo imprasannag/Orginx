@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Code2,
   Globe,
@@ -1049,6 +1049,22 @@ export default function Home() {
         }
       });
 
+      // Horizontal scroll animation for Why Choose Us
+      if (window.innerWidth >= 768 && scrollContainerRef.current) {
+        gsap.to(scrollContainerRef.current, {
+          x: () => -(scrollContainerRef.current!.scrollWidth - window.innerWidth + 64),
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#process",
+            pin: true,
+            scrub: 0.5,
+            start: "top top",
+            end: () => `+=${scrollContainerRef.current!.scrollWidth - window.innerWidth}`,
+            invalidateOnRefresh: true,
+          }
+        });
+      }
+
       // Parallax scrolling for masterpieces images
       gsap.fromTo(
         "#about-right-img",
@@ -1126,8 +1142,7 @@ export default function Home() {
 
   // Horizontal Scroll for Why Us
   const whyUsRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({ target: whyUsRef });
-  const xTransform = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1542,19 +1557,20 @@ export default function Home() {
               </div>
 
               {/* Right Column: 3D Flip Card Preview */}
-              <div className="lg:col-span-6 flex flex-col gap-6 items-center justify-center">
-                <div 
-                  className="relative w-full max-w-[420px] aspect-[1.75/1] cursor-pointer @container"
-                  style={{ perspective: "1200px" }}
-                  onClick={() => setCardFlipped(!cardFlipped)}
-                >
-                  <div
-                    className="relative w-full h-full rounded-2xl transition-transform duration-700 shadow-[0_20px_50px_rgba(0,0,0,0.15)] select-none @container"
-                    style={{
-                      transformStyle: "preserve-3d",
-                      transform: cardFlipped ? "rotateY(180deg)" : "rotateY(0deg)"
-                    }}
+              <div className="lg:col-span-6 flex flex-col gap-6 items-center justify-center w-full overflow-hidden">
+                <div className="w-full h-[180px] min-[360px]:h-[210px] min-[440px]:h-[240px] sm:h-[260px] flex items-center justify-center overflow-visible">
+                  <div 
+                    className="relative w-[420px] aspect-[1.75/1] cursor-pointer scale-[0.68] min-[360px]:scale-[0.8] min-[440px]:scale-[0.9] sm:scale-100 origin-center transition-transform @container flex-shrink-0"
+                    style={{ perspective: "1200px" }}
+                    onClick={() => setCardFlipped(!cardFlipped)}
                   >
+                    <div
+                      className="relative w-full h-full rounded-2xl transition-transform duration-700 shadow-[0_20px_50px_rgba(0,0,0,0.15)] select-none"
+                      style={{
+                        transformStyle: "preserve-3d",
+                        transform: cardFlipped ? "rotateY(180deg)" : "rotateY(0deg)"
+                      }}
+                    >
                     
                     {/* CARD FRONT */}
                     <div
@@ -1834,6 +1850,7 @@ export default function Home() {
 
                   </div>
                 </div>
+              </div>
 
                 {/* Control Action buttons */}
                 <div className="flex flex-wrap gap-3 mt-2">
@@ -2572,7 +2589,7 @@ export default function Home() {
 
             <div className="mt-12 w-full">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <motion.div style={{ x: isMobile ? 0 : xTransform }} className="grid grid-cols-1 sm:grid-cols-2 md:flex md:w-max gap-6 w-full">
+                <div ref={scrollContainerRef} className="grid grid-cols-1 sm:grid-cols-2 md:flex md:w-max gap-6 w-full">
                   {/* Card 1 */}
                   <div className="glow-card active w-full md:w-[320px] rounded-2xl border border-border-custom bg-card-bg-custom/80 backdrop-blur p-8">
                     <div className="text-3xl font-bold text-accent">01</div>
@@ -2668,7 +2685,7 @@ export default function Home() {
                       Stunning custom design language, subtle micro-animations, and interactive layouts that maximize engagement.
                     </p>
                   </div>
-                </motion.div>
+                </div>
               </div>
             </div>
           </div>
